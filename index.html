@@ -180,6 +180,15 @@
     transition:border-color .25s, transform .25s;
     position:relative; overflow:hidden;
   }
+  .proj-img{
+    margin:-26px -26px 0; height:170px; overflow:hidden; position:relative;
+    border-bottom:1px solid var(--line);
+  }
+  .proj-img img{ width:100%; height:100%; object-fit:cover; display:block; filter:saturate(.9) brightness(.92); }
+  .proj-img::after{
+    content:''; position:absolute; inset:0;
+    background:linear-gradient(180deg, transparent 40%, var(--bg-panel) 100%);
+  }
   .proj-card::before{
     content:''; position:absolute; top:0; left:0; right:0; height:2px;
     background:linear-gradient(90deg, transparent, var(--accent), transparent);
@@ -348,6 +357,7 @@
     </div>
 
     <div class="proj-card">
+      <div class="proj-img"><img src="assets/drone.jpg" alt="無人機 VR 飛行訓練模擬畫面" loading="lazy"></div>
       <div class="proj-top"><h3>無人機 VR / PC 飛行訓練系統</h3><span class="badge solo">獨立開發</span></div>
       <p>依現行無人機考照制度建立 3D 飛行模擬訓練流程,支援 PC、Meta Quest、HTC VIVE 平台,整合多種 HID 控制設備與無人機遙控器。</p>
       <div class="proj-tags-label">// 使用技術</div>
@@ -356,14 +366,17 @@
     </div>
 
     <div class="proj-card">
+      <div class="proj-img"><img src="assets/hunting.jpg" alt="獵槍安全教育 VR 訓練實際使用畫面" loading="lazy"></div>
       <div class="proj-top"><h3>狩獵與獵槍安全教育 VR 系統</h3><span class="badge solo">獨立開發</span></div>
       <p>為原住民族委員會開發的獵槍安全教育訓練系統,建立互動式訓練流程,模擬裝備準備、槍枝操作與狩獵情境,並整合 IoT 獵槍設備同步操作狀態。</p>
       <div class="proj-tags-label">// 使用技術</div>
       <div class="proj-tags"><span>Unity VR</span><span>IoT</span><span>情境模擬</span></div>
       <a class="proj-link" href="https://news.ltn.com.tw/news/life/paper/1709704" target="_blank" rel="noopener">↗ 自由時報報導 <span class="src">ltn.com.tw</span></a>
+      <a class="proj-link" href="https://news.ipcf.org.tw/194212" target="_blank" rel="noopener">↗ 原民台新聞報導 <span class="src">ipcf.org.tw</span></a>
     </div>
 
     <div class="proj-card">
+      <div class="proj-img"><img src="assets/hongsun.jpg" alt="紅隼射擊訓練系統實機瞄準畫面" loading="lazy"></div>
       <div class="proj-top"><h3>紅隼射擊訓練模擬系統</h3><span class="badge solo">獨立開發</span></div>
       <p>整合 3D 列印訓練器材與紅外線定位技術,透過裝置發射紅外線至螢幕取得瞄準位置,建立操作判定與回饋流程,協助使用者熟悉瞄準與射擊流程。</p>
       <div class="proj-tags-label">// 使用技術</div>
