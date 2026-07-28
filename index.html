@@ -96,7 +96,7 @@
   .module-tag::before{ content:''; width:24px; height:1px; background:var(--accent); }
 
   /* ---------- hero ---------- */
-  .hero{ min-height:100vh; display:flex; flex-direction:column; justify-content:center; padding-top:80px; }
+  .hero{ min-height:100vh; display:flex; flex-direction:column; justify-content:center; padding:80px 6vw 0; max-width:1180px; margin:0 auto; box-sizing:border-box; width:100%; }
   .boot-lines{
     font-family:'JetBrains Mono', monospace; font-size:12.5px; color:var(--text-3);
     margin-bottom:28px; min-height:110px;
@@ -158,8 +158,8 @@
     padding:18px 20px; transition:border-color .25s, transform .25s;
   }
   .skill-card:hover{ border-color:var(--accent-dim); transform:translateY(-3px); }
-  .skill-card .k{ font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--text-3); }
-  .skill-card .v{ font-size:14.5px; margin-top:6px; font-weight:500; }
+  .skill-card .k{ font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--accent-dim); letter-spacing:.04em; }
+  .skill-card .v{ font-size:14.5px; margin-top:6px; font-weight:500; color:var(--text-1); }
 
   /* ---------- section heading ---------- */
   .sec-head{ display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:8px; }
@@ -191,16 +191,46 @@
   .badge.team{ background:rgba(255,159,69,.12); color:var(--warn); border:1px solid rgba(255,159,69,.3); }
   .proj-card h3{ font-size:18.5px; font-weight:600; }
   .proj-card p{ color:var(--text-2); font-size:14px; }
-  .proj-tags{ display:flex; flex-wrap:wrap; gap:8px; margin-top:auto; }
+  .proj-tags-label{ font-family:'JetBrains Mono', monospace; font-size:10.5px; color:var(--accent-dim); letter-spacing:.06em; margin-top:6px; }
+  .proj-tags{ display:flex; flex-wrap:wrap; gap:8px; margin-top:4px; }
   .proj-tags span{
-    font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--text-3);
-    border:1px solid var(--line-bright); padding:3px 9px; border-radius:3px;
+    font-family:'JetBrains Mono', monospace; font-size:11.5px; color:#AEE8DC;
+    background:rgba(45,224,194,.06);
+    border:1px solid var(--accent-dim); padding:3px 10px; border-radius:3px;
   }
   .proj-link{
     font-family:'JetBrains Mono', monospace; font-size:12.5px; color:var(--accent);
     text-decoration:none; display:inline-flex; align-items:center; gap:6px; margin-top:6px;
+    border:1px solid var(--line-bright); padding:8px 12px; border-radius:5px;
+    background:var(--bg-panel-2); transition:border-color .2s, background .2s;
   }
-  .proj-link:hover{ text-decoration:underline; }
+  .proj-link:hover{ text-decoration:none; border-color:var(--accent-dim); background:rgba(45,224,194,.06); }
+  .proj-link .src{ color:var(--text-3); font-size:11px; }
+  .proj-link.video-trigger{ cursor:pointer; border:none; background:transparent; padding:0; }
+
+  /* ---------- modal ---------- */
+  .modal-overlay{
+    position:fixed; inset:0; z-index:200; background:rgba(4,6,9,.85);
+    display:none; align-items:center; justify-content:center; padding:24px;
+    backdrop-filter:blur(4px);
+  }
+  .modal-overlay.open{ display:flex; }
+  .modal-box{
+    width:100%; max-width:860px; background:var(--bg-panel);
+    border:1px solid var(--line-bright); border-radius:8px; overflow:hidden;
+  }
+  .modal-head{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:12px 16px; border-bottom:1px solid var(--line);
+    font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--text-3);
+  }
+  .modal-close{
+    background:none; border:none; color:var(--text-2); font-size:18px; cursor:pointer;
+    line-height:1; padding:4px 8px;
+  }
+  .modal-close:hover{ color:var(--accent); }
+  .video-frame{ position:relative; width:100%; padding-top:56.25%; background:#000; }
+  .video-frame iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }
 
   /* ---------- timeline ---------- */
   .timeline{ margin-top:40px; position:relative; padding-left:28px; }
@@ -211,11 +241,12 @@
     background:var(--bg-void); border:2px solid var(--accent);
   }
   .tl-item.minor::before{ border-color:var(--text-3); }
-  .tl-time{ font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--text-3); }
+  .tl-time{ font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--accent-dim); }
   .tl-item h3{ font-size:19px; margin-top:6px; }
   .tl-item .company{ color:var(--text-2); font-size:13.5px; margin-top:2px; }
   .tl-item ul{ margin-top:10px; padding-left:18px; color:var(--text-2); font-size:14px; }
-  .tl-item.minor{ opacity:.72; }
+  .tl-item.minor{ opacity:.78; }
+  .tl-item.minor .tl-time{ color:var(--text-3); }
   .tl-item.minor h3{ font-size:16px; }
   .tl-item.minor p{ font-size:13.5px; color:var(--text-2); margin-top:6px; }
 
@@ -306,39 +337,41 @@
     <div class="proj-card">
       <div class="proj-top"><h3>軍事訓練模擬系統</h3><span class="badge team">共同開發</span></div>
       <p>多人 VR 軍事訓練系統,支援最多 10 人同場域協同訓練。整合人體與槍枝動作捕捉設備(Ultimate Tracker),並透過 TCP / Wi-Fi 與槍枝 IoT 模組同步子彈數量、板機、保險等即時狀態。</p>
+      <div class="proj-tags-label">// 使用技術</div>
       <div class="proj-tags"><span>HTC VIVE</span><span>SteamVR</span><span>Motion Capture</span><span>TCP</span></div>
     </div>
 
     <div class="proj-card">
       <div class="proj-top"><h3>無人機 VR / PC 飛行訓練系統</h3><span class="badge solo">獨立開發</span></div>
       <p>依現行無人機考照制度建立 3D 飛行模擬訓練流程,支援 PC、Meta Quest、HTC VIVE 平台,整合多種 HID 控制設備與無人機遙控器。</p>
+      <div class="proj-tags-label">// 使用技術</div>
       <div class="proj-tags"><span>Unity</span><span>HID</span><span>Flight Simulation</span></div>
+      <a class="proj-link" href="https://www.cw.com.tw/video/video.action?id=2368" target="_blank" rel="noopener">↗ 天下雜誌報導 <span class="src">cw.com.tw</span></a>
     </div>
 
     <div class="proj-card">
       <div class="proj-top"><h3>狩獵與獵槍安全教育 VR 系統</h3><span class="badge solo">獨立開發</span></div>
       <p>為原住民族委員會開發的獵槍安全教育訓練系統,建立互動式訓練流程,模擬裝備準備、槍枝操作與狩獵情境,並整合 IoT 獵槍設備同步操作狀態。</p>
+      <div class="proj-tags-label">// 使用技術</div>
       <div class="proj-tags"><span>Unity VR</span><span>IoT</span><span>情境模擬</span></div>
+      <a class="proj-link" href="https://news.ltn.com.tw/news/life/paper/1709704" target="_blank" rel="noopener">↗ 自由時報報導 <span class="src">ltn.com.tw</span></a>
     </div>
 
     <div class="proj-card">
       <div class="proj-top"><h3>紅隼射擊訓練模擬系統</h3><span class="badge solo">獨立開發</span></div>
       <p>整合 3D 列印訓練器材與紅外線定位技術,透過裝置發射紅外線至螢幕取得瞄準位置,建立操作判定與回饋流程,協助使用者熟悉瞄準與射擊流程。</p>
+      <div class="proj-tags-label">// 使用技術</div>
       <div class="proj-tags"><span>VR + IoT</span><span>紅外線定位</span><span>3D 列印整合</span></div>
+      <a class="proj-link" href="https://www.youtube.com/watch?v=MK8xtDRuGuw&t=259s" target="_blank" rel="noopener">↗ YouTube 專案影片 <span class="src">youtube.com</span></a>
     </div>
 
     <div class="proj-card" style="grid-column: span 1;">
       <div class="proj-top"><h3>IoT 設備通訊整合開發</h3></div>
       <p>將不同規格的 IoT 設備整合進 Unity 系統,透過 TCP 通訊即時收發資料,依設備規格進行解析、狀態同步,並協助通訊問題排查與系統穩定性改善。</p>
+      <div class="proj-tags-label">// 使用技術</div>
       <div class="proj-tags"><span>Unity</span><span>TCP</span><span>資料解析</span></div>
     </div>
 
-  </div>
-
-  <div class="reveal" style="margin-top:26px; display:flex; gap:22px; flex-wrap:wrap;">
-    <a class="proj-link" href="https://www.cw.com.tw/video/video.action?id=2368" target="_blank" rel="noopener">↗ 天下雜誌報導</a>
-    <a class="proj-link" href="https://www.youtube.com/watch?v=MK8xtDRuGuw&t=259s" target="_blank" rel="noopener">↗ YouTube 專案影片</a>
-    <a class="proj-link" href="https://news.ltn.com.tw/news/life/paper/1709704" target="_blank" rel="noopener">↗ 自由時報報導</a>
   </div>
 </section>
 
